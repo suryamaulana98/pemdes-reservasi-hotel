@@ -21,6 +21,7 @@ from PyQt6.QtWidgets import (
 def init_database():
     conn = sqlite3.connect("reservasi-hotel.sqlite")
     cursor = conn.cursor()
+    
 
     # TABLE rooms
     cursor.execute("""
@@ -57,6 +58,12 @@ def init_database():
         FOREIGN KEY (room_id) REFERENCES rooms(room_id)
     )
     """)
+    
+    # hapus sqlite_sequence supaya autoincrement mulai dari 1 lagi
+    cursor.execute("DELETE FROM sqlite_sequence WHERE name='guests'")
+    cursor.execute("DELETE FROM sqlite_sequence WHERE name='rooms'")
+    cursor.execute("DELETE FROM sqlite_sequence WHERE name='reservations'")
+
 
     # Insert rooms dummy (5 data)
     cursor.execute("SELECT COUNT(*) FROM rooms")
